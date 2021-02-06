@@ -14,27 +14,53 @@ public class Calc implements Calculadora {
 	
 	@Override
 	public int suma(int x, int y) {
-		return x + y;
+		return y + x;
 	}
 
 	@Override
 	public int resta(int x, int y) {
-		return x - y;
+		return y - x;
 	}
 
 	@Override
 	public int multiplicacion(int x, int y) {
-		return x * y;
+		return y * x;
 	}
 
 	@Override
 	public int division(int x, int y) {
-		return x / y;
+		return y / x;
 	}
 
 	@Override
 	public int operar(Stack x) {
-		return 0;
+		StackArrayList<Integer> stack = new StackArrayList<Integer>();
+		char elemento;
+		for(int i=0; i<x.size(); i++) {
+			elemento = (char) x.pop();
+			try {
+				stack.push(Character.getNumericValue(elemento));
+			} catch(Exception e) {
+				switch(elemento) {
+					case '+': 
+						stack.push(suma(stack.pop(), stack.pop())); 
+						break;
+					case '-':
+						stack.push(resta(stack.pop(), stack.pop())); 
+						break;
+					case '*':
+						stack.push(multiplicacion(stack.pop(), stack.pop())); 
+						break;
+					case '/':
+						stack.push(division(stack.pop(), stack.pop())); 
+						break;
+					default:
+						return 0;
+				}
+			}
+		}
+		
+		return stack.pop();
 	}
 
 	@Override
@@ -42,7 +68,7 @@ public class Calc implements Calculadora {
 		//Se lee cada linea del archivo y se guardan en un ArrayList.
 		ArrayList<String> filas = new ArrayList<String>();
 		try {
-			FileReader fr = new FileReader("datos.txt");
+			FileReader fr = new FileReader(a);
 			BufferedReader entrada = new BufferedReader(fr); 
 			String s;
 			while((s = entrada.readLine()) != null)
@@ -53,6 +79,7 @@ public class Calc implements Calculadora {
 			System.out.println("Archivo no encontrado: " + fnfex);
 			}
 		catch(java.io.IOException ioex) {
+			System.out.println("Error en lectura del archivo: " + ioex);
 		}
 		
 		String resultados = "";
