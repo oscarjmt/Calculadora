@@ -9,41 +9,76 @@ import java.util.ArrayList;
  */
 public class Calc implements calculadora {
 	
+	/**
+	 * Constructor
+	 */
 	public Calc() {
 	}
 	
+	/**
+	 * Suma
+	 * @param x: int
+	 * @param y: int
+	 * @return int
+	 */
 	@Override
 	public int suma(int x, int y) {
 		return y + x;
 	}
-
+	
+	/**
+	 * Resta
+	 * @param x: int
+	 * @param y: int
+	 * @return int
+	 */
 	@Override
 	public int resta(int x, int y) {
 		return y - x;
 	}
-
+	
+	/**
+	 * Multiplicacion
+	 * @param x: int
+	 * @param y: int
+	 * @return int
+	 */
 	@Override
 	public int multiplicacion(int x, int y) {
 		return y * x;
 	}
-
+	
+	/**
+	 * Division
+	 * @param x: int
+	 * @param y: int
+	 * @return int
+	 */
 	@Override
 	public int division(int x, int y) {
 		return y / x;
 	}
-
+	
+	/**
+	 * Opera el stack
+	 * @param x: Stack
+	 * @return int
+	 */
 	@Override
 	public int operar(Stack x) {
 		// aqui se cambia la interfaz de ArrayList a StackVector
 		StackVector<Integer> stack = new StackVector<Integer>();
 		char elemento;
 		int size = x.size();
+		//Se opera de forma postfix
 		for(int i=0; i<size; i++) {
 			elemento = ((String) x.pop()).charAt(0);
 			int operando = Character.getNumericValue(elemento);
+			//Se verifica si es operando u operador.
 			if(operando > 0) {
 				stack.push(operando);
 			} else {
+				//Se reconoce el operador.
 				switch(elemento) {
 					case '+': 
 						stack.push(suma(stack.pop(), stack.pop())); 
@@ -61,13 +96,17 @@ public class Calc implements calculadora {
 			}
 			System.out.println(stack.toString());
 		}
-		
 		return stack.pop();
 	}
-
+	
+	/**
+	 * Lee archivo y manda a operar cada linea
+	 * @param a: String
+	 * @return String
+	 */
 	@Override
 	public String decode(String a) {
-		//Se lee cada linea del archivo y se guardan en un ArrayList. Solo lee el archivo no ejecuta
+		//Se lee cada linea del archivo y se guardan en un ArrayList. Solo lee el archivo no ejecuta.
 		ArrayList<String> filas = new ArrayList<String>();
 		try {
 			FileReader fr = new FileReader(a);
@@ -88,11 +127,13 @@ public class Calc implements calculadora {
 		String[] elementos;
 		StackVector<String> stack = new StackVector<String>();
 		boolean valid = true;
+		//Se recorren los Strings generado por cada linea del archivo.
 		for(int i=0; i<filas.size(); i++) {
 			valid = true;
 			elementos = filas.get(i).split(" ");
 			stack = new StackVector<String>();
 			for(int j=elementos.length-1; j>=0; j--) {
+				//Se agregan los elementos a una pila.
 				try {  
 				    Integer.parseInt(elementos[j]);  
 				    stack.push(elementos[j]);
@@ -105,7 +146,8 @@ public class Calc implements calculadora {
 					  }
 				  }  
 			}
-			System.out.print(stack);
+			
+			//Se retorna el resultado adecuado.
 			if(valid) {
 				try {
 					resultados += "Resultado linea " + (i+1) + ": " + operar(stack)+ "\n";
