@@ -1,5 +1,5 @@
 /**
- * Interface Calculadora
+ * Interface calculadora
  */
 public interface calculadora {
     public int suma(int x, int y);
