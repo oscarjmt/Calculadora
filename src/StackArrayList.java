@@ -45,4 +45,9 @@ public class StackArrayList<E> implements Stack<E> {
 	{
 		return size() == 0;
 	}
+
+	@Override
+	public String toString() {
+		return "StackArrayList [data=" + data + "]";
+	}
 }

@@ -36,11 +36,13 @@ public class Calc implements Calculadora {
 	public int operar(Stack x) {
 		StackArrayList<Integer> stack = new StackArrayList<Integer>();
 		char elemento;
-		for(int i=0; i<x.size(); i++) {
-			elemento = (char) x.pop();
-			try {
-				stack.push(Character.getNumericValue(elemento));
-			} catch(Exception e) {
+		int size = x.size();
+		for(int i=0; i<size; i++) {
+			elemento = ((String) x.pop()).charAt(0);
+			int operando = Character.getNumericValue(elemento);
+			if(operando > 0) {
+				stack.push(operando);
+			} else {
 				switch(elemento) {
 					case '+': 
 						stack.push(suma(stack.pop(), stack.pop())); 
@@ -58,6 +60,7 @@ public class Calc implements Calculadora {
 						return 0;
 				}
 			}
+			System.out.println(stack.toString());
 		}
 		
 		return stack.pop();
@@ -87,10 +90,11 @@ public class Calc implements Calculadora {
 		StackArrayList<String> stack = new StackArrayList<String>();
 		for(int i=0; i<filas.size(); i++) {
 			elementos = filas.get(i).split(" ");
-			for(int j=elementos.length; j>=0; j--) {
-				stack = new StackArrayList<String>();
+			stack = new StackArrayList<String>();
+			for(int j=elementos.length-1; j>=0; j--) {
 				stack.push(elementos[j]);
 			}
+			System.out.print(stack);
 			resultados += "\nResultado linea " + (i+1) + ": " + operar(stack);
 		}
 		
