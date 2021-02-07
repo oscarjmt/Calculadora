@@ -10,15 +10,20 @@ import org.junit.jupiter.api.Test;
 class Test2 {
 	
 	/**
-	 * Test de operaciones de la calculadora
+	 * Test de la pila
 	 */
 	@Test
 	void test() {
 		Calc test2 = new Calc();
-		StackVector<Integer> stackPrueba = new StackVector<Integer>();
-		stackPrueba.push(3);
+		StackVector<String> stackPrueba = new StackVector<String>();
 		stackPrueba.push("/");
-		assertEquals("Resultado linea 1: 15\nResultado linea 2: 14\nResultado linea 3: 23\n",stack);					
+		stackPrueba.push("1");
+		stackPrueba.push("+");
+		stackPrueba.push("8");
+		stackPrueba.push("*");
+		stackPrueba.push("5");
+		stackPrueba.push("3");
+		assertEquals(23,test2.operar(stackPrueba));					
 	}
 
 }
