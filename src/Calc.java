@@ -34,7 +34,7 @@ public class Calc implements Calculadora {
 
 	@Override
 	public int operar(Stack x) {
-		StackArrayList<Integer> stack = new StackArrayList<Integer>();
+		StackVector<Integer> stack = new StackVector<Integer>();
 		char elemento;
 		int size = x.size();
 		for(int i=0; i<size; i++) {
@@ -56,8 +56,6 @@ public class Calc implements Calculadora {
 					case '/':
 						stack.push(division(stack.pop(), stack.pop())); 
 						break;
-					default:
-						return 0;
 				}
 			}
 			System.out.println(stack.toString());
@@ -87,15 +85,31 @@ public class Calc implements Calculadora {
 		
 		String resultados = "";
 		String[] elementos;
-		StackArrayList<String> stack = new StackArrayList<String>();
+		StackVector<String> stack = new StackVector<String>();
+		boolean valid = true;
 		for(int i=0; i<filas.size(); i++) {
+			valid = true;
 			elementos = filas.get(i).split(" ");
-			stack = new StackArrayList<String>();
+			stack = new StackVector<String>();
 			for(int j=elementos.length-1; j>=0; j--) {
-				stack.push(elementos[j]);
+				try {  
+				    Integer.parseInt(elementos[j]);  
+				    stack.push(elementos[j]);
+				  } catch(NumberFormatException e){  
+					  if(elementos[j].equals("+") || elementos[j].equals("-") ||elementos[j].equals("*") ||elementos[j].equals("/")) {
+						  stack.push(elementos[j]);
+					  } else {
+						  valid = false;
+						  break;
+					  }
+				  }  
 			}
 			System.out.print(stack);
-			resultados += "\nResultado linea " + (i+1) + ": " + operar(stack);
+			if(valid) {
+				resultados += "\nResultado linea " + (i+1) + ": " + operar(stack);
+			} else {
+				resultados += "\nResultado linea " + (i+1) + ": caracter incorrecto";
+			}
 		}
 		
 		return resultados;
