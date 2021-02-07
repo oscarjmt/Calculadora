@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Oscar Mendez
  * @author Jeyner Arango
  */
-public class Calc implements Calculadora {
+public class Calc implements calculadora {
 	
 	public Calc() {
 	}
@@ -34,6 +34,7 @@ public class Calc implements Calculadora {
 
 	@Override
 	public int operar(Stack x) {
+		// aqui se cambia la interfaz de ArrayList a StackVector
 		StackVector<Integer> stack = new StackVector<Integer>();
 		char elemento;
 		int size = x.size();
@@ -54,7 +55,7 @@ public class Calc implements Calculadora {
 						stack.push(multiplicacion(stack.pop(), stack.pop())); 
 						break;
 					case '/':
-						stack.push(division(stack.pop(), stack.pop())); 
+						stack.push(division(stack.pop(), stack.pop()));
 						break;
 				}
 			}
@@ -66,7 +67,7 @@ public class Calc implements Calculadora {
 
 	@Override
 	public String decode(String a) {
-		//Se lee cada linea del archivo y se guardan en un ArrayList.
+		//Se lee cada linea del archivo y se guardan en un ArrayList. Solo lee el archivo no ejecuta
 		ArrayList<String> filas = new ArrayList<String>();
 		try {
 			FileReader fr = new FileReader(a);
@@ -106,12 +107,15 @@ public class Calc implements Calculadora {
 			}
 			System.out.print(stack);
 			if(valid) {
-				resultados += "\nResultado linea " + (i+1) + ": " + operar(stack);
+				try {
+					resultados += "Resultado linea " + (i+1) + ": " + operar(stack)+ "\n";
+				} catch (ArrayIndexOutOfBoundsException aioobe) {
+					resultados += "Resultado linea " + (i+1) + ": operacion invalida\n";
+				}
 			} else {
-				resultados += "\nResultado linea " + (i+1) + ": caracter incorrecto";
+				resultados += "Resultado linea " + (i+1) + ": caracter incorrecto\n";
 			}
 		}
-		
 		return resultados;
 	}
 	

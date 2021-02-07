@@ -1,7 +1,7 @@
 /**
  * Interface Calculadora
  */
-public interface Calculadora {
+public interface calculadora {
     public int suma(int x, int y);
     public int resta(int x, int y);
     public int multiplicacion(int x, int y);
